@@ -1,3 +1,4 @@
+Python>=3.9.18
 # Core data science libraries
 pandas>=2.0.0
 geopandas>=0.13.0
