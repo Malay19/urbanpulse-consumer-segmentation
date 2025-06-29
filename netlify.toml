@@ -1,0 +1,46 @@
+[build]
+  base = "."
+  publish = "dist"
+  command = "python build_static.py"
+
+[build.environment]
+  PYTHON_VERSION = "3.9"
+  NODE_VERSION = "18"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[context.production.environment]
+  ENVIRONMENT = "production"
+  CACHE_ENABLED = "true"
+  LOG_LEVEL = "INFO"
+
+[context.deploy-preview.environment]
+  ENVIRONMENT = "staging"
+  CACHE_ENABLED = "false"
+  LOG_LEVEL = "DEBUG"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
